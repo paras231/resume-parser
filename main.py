@@ -2,7 +2,7 @@ from PyPDF2 import PdfReader
 import re
 import spacy
 
-reader =  PdfReader("sample_resume.pdf")
+reader =  PdfReader("fullstackdev.pdf")
 
 number_of_pages = len(reader.pages)
 
@@ -43,6 +43,19 @@ npl =  spacy.load("en_core_web_sm")
 
 doc =  npl(text)
 
-for ent in doc.ents:
-    if ent.label_  in ["GPE","LOC"]:
-       print("Possible Address Part:", ent.text)
+# for ent in doc.ents:
+#     if ent.label_  in ["GPE","LOC"]:
+#        print("Possible Address Part:", ent.text)
+
+# print(doc)
+
+'''Extract skills sections'''
+
+
+skills = []
+for token in doc:
+    if token.pos_ == "NOUN" or token.pos_ == "VERB": # Example: Nouns and verbs
+        if token.text.lower() in ["Javscript", "HTML", "sql", "data analysis", "machine learning"]:
+            skills.append(token.text)
+
+print(skills)
