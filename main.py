@@ -1,8 +1,9 @@
 from PyPDF2 import PdfReader
 import re
 import spacy
+from utils.skill_set import skills_list 
 
-reader =  PdfReader("fullstackdev.pdf")
+reader =  PdfReader("agriculture_resume.pdf")
 
 number_of_pages = len(reader.pages)
 
@@ -52,10 +53,30 @@ doc =  npl(text)
 '''Extract skills sections'''
 
 
-skills = []
-for token in doc:
-    if token.pos_ == "NOUN" or token.pos_ == "VERB": # Example: Nouns and verbs
-        if token.text.lower() in ["Javscript", "HTML", "sql", "data analysis", "machine learning"]:
-            skills.append(token.text)
+def extract_skills(text,skill_list):
+    skills = []
+    for skill in skill_list:
+        pattern = r"\b{}\b".format(re.escape(skill))
+        match =  re.search(pattern,text, re.IGNORECASE)
+        if match:
+            skills.append(skill)
+    return skills
 
-print(skills)
+
+
+# output_skills =  extract_skills(text,skills_list)
+
+# print(output_skills)
+
+
+'''Extract Educations'''
+
+def extract_education(text):
+    educations = []
+    pattern = r"(?i)(?:(?:Bachelor|B\.S\.|B\.A\.|Master|M\.S\.|M\.A\.|Ph\.D\.)\s(?:[A-Za-z]+\s)*[A-Za-z]+)"
+    matches =  re.findall(pattern,text)
+    for match in matches:
+        educations.append(match.strip())
+    return educations
+
+print(extract_education(text))
