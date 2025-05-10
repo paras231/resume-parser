@@ -10,7 +10,7 @@ number_of_pages = len(reader.pages)
 page = reader.pages[0]
 text = page.extract_text()
 
-# print(text)
+print(text)
 
 
 '''Extract emails from the pdf string using regular expression'''
@@ -50,7 +50,7 @@ doc =  npl(text)
 
 # print(doc)
 
-'''Extract skills sections'''
+'''Extract skills sections'''  # important
 
 
 def extract_skills(text,skill_list):
@@ -79,4 +79,15 @@ def extract_education(text):
         educations.append(match.strip())
     return educations
 
-print(extract_education(text))
+# print(extract_education(text))
+
+
+'''Extract Experience '''  # important
+
+def extract_exp(text):
+    exp_lines =  text.split('\n')
+    exp = []
+    for line in exp_lines:
+        if line.strip():
+            exp.append(line.strip())
+    return exp
